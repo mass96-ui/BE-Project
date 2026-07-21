@@ -96,4 +96,8 @@ Input:
 - Real EMG Sensor Integration
 - Personalized AI Coach
 - LLM-based Answer Generation
+<<<<<<< HEAD
 - Real-time Soleus Monitoring
+=======
+- Real-time Soleus Monitoring
+>>>>>>> e72b127fedf55f5959e6d89500c202f87e20fd2c

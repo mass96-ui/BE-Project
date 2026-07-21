@@ -1,5 +1,6 @@
 from langchain_community.vectorstores import FAISS
 from langchain_community.embeddings import HuggingFaceEmbeddings
+from src.rag.llm_rag import generate_answer
 
 embedding = HuggingFaceEmbeddings(
     model_name="all-MiniLM-L6-v2"
@@ -18,10 +19,15 @@ def search_papers(question):
         k=3
     )
 
-    response = ""
+    context = ""
 
     for doc in docs:
-        response += doc.page_content
-        response += "\n\n"
+        context += doc.page_content
+        context += "\n\n"
 
-    return response
+    answer = generate_answer(
+        context,
+        question
+    )
+
+    return answer

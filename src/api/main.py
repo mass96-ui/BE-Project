@@ -2,14 +2,15 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import joblib
 import pandas as pd
-
+from src.api.coach import router as coach_router
+from src.api.model_info import router as model_info_router
 from src.rag.query_api import search_papers
 
 app = FastAPI(title="SoleusAI")
 
 model = joblib.load("models/emg_activation_model.pkl")
-
-
+app.include_router(coach_router)
+app.include_router(model_info_router)
 class EMGInput(BaseModel):
     rms: float
     mav: float

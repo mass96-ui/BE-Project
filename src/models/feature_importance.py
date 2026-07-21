@@ -1,50 +1,37 @@
-import pandas as pd
 import joblib
+import pandas as pd
 import matplotlib.pyplot as plt
 
-# Load dataset
-df = pd.read_csv("data/raw/soleus_dataset.csv")
+model = joblib.load(
+    "models/emg_activation_model.pkl"
+)
 
-# Load trained model
-model = joblib.load("models/activation_model.pkl")
+df = pd.read_csv(
+    "data/processed/emg_feature_dataset.csv"
+)
 
-# Get feature names
-features = df.drop("activation_score", axis=1).columns
+X = df.drop(
+    "activation_score",
+    axis=1
+)
 
-# Get feature importance
 importance = model.feature_importances_
 
-# Create dataframe
-importance_df = pd.DataFrame({
-    "Feature": features,
-    "Importance": importance
-})
-
-# Sort descending
-importance_df = importance_df.sort_values(
-    by="Importance",
-    ascending=False
-)
-
-print("\nFeature Importance Ranking:\n")
-print(importance_df)
-
-# Plot graph
-plt.figure(figsize=(8,5))
 plt.bar(
-    importance_df["Feature"],
-    importance_df["Importance"]
+    X.columns,
+    importance
 )
 
-plt.title("Feature Importance for Soleus Activation Prediction")
-plt.xlabel("Features")
-plt.ylabel("Importance Score")
-plt.xticks(rotation=45)
+plt.title(
+    "EMG Feature Importance"
+)
 
-plt.tight_layout()
+plt.ylabel(
+    "Importance"
+)
 
 plt.savefig(
     "models/feature_importance.png"
 )
 
-plt.show()
+print("Feature Importance Saved")
